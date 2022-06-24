@@ -116,7 +116,15 @@ class HelloWorld {
             List parsed_list = parseList(list);
             // complexity max(O(n) + O(k) + O(k - s) + O(d)) = O(n);
             // (n => d) > k > k - s
+            // Time spent on deduplication: 264 ms
+            long start = System.currentTimeMillis();
             List deduplicated_list = deduplicate(parsed_list, false);
+            long finish = System.currentTimeMillis();
+            long timeElapsed = finish - start;
+            System.out.print("Time spent on deduplication:");
+            System.out.print(" ");
+            System.out.print(timeElapsed);
+            System.out.print(" ms\n");
 
 
             List<String> game_name_data = new ArrayList<>();
@@ -127,9 +135,16 @@ class HelloWorld {
 
             Trie trie = new Trie();
             trie.build(game_name_data);
-            // complexity O(m * log(n)); m - max. phrase length; n - number of phrases,
+            start = System.currentTimeMillis();
+            // complexity O(m * log(n)); m - max. phrase length; n - number of phrases
+            // Time spent on duplicates search: 43 ms
             List result = trie.printDuplicates(true);
-            System.out.println(result.size());
+            finish = System.currentTimeMillis();
+            timeElapsed = finish - start;
+            System.out.print("Time spent on duplicates search:");
+            System.out.print(" ");
+            System.out.print(timeElapsed);
+            System.out.print(" ms\n");
 
         } catch (IOException e) {
             e.printStackTrace();

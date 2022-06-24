@@ -114,6 +114,8 @@ class HelloWorld {
         try {
             List list = readFile(filename);
             List parsed_list = parseList(list);
+            // complexity max(O(n) + O(k) + O(k - s) + O(d)) = O(n);
+            // (n => d) > k > k - s
             List deduplicated_list = deduplicate(parsed_list, false);
 
 
@@ -125,6 +127,7 @@ class HelloWorld {
 
             Trie trie = new Trie();
             trie.build(game_name_data);
+            // complexity O(m * log(n)); m - max. phrase length; n - number of phrases,
             List result = trie.printDuplicates(true);
             System.out.println(result.size());
 
@@ -195,6 +198,8 @@ class HelloWorld {
 
     private static List deduplicate(List<List> list, boolean nice_print){
         Map<String, Map<String, Object>> dupl_info_total = new HashMap<String, Map<String, Object>>();
+
+        // time complexity O(n); n - number of lines
         for (int i = 0; i < list.size(); i++) {
             String hash_id = (String) list.get(i).get(0) + (String) list.get(i).get(1) + (String) list.get(i).get(2) + (String) list.get(i).get(3) +
                     (String) list.get(i).get(4);
@@ -214,6 +219,8 @@ class HelloWorld {
                 partial_info.put("idx", partial_idx_list);
             }
         }
+
+        // time complexity O(k); k - number of unique lines
         Map<String, Map<String, Object>> dupl_info_reduce = new HashMap<String, Map<String, Object>>();
         for (Map.Entry<String, Map<String, Object>> entry : dupl_info_total.entrySet()) {
             Integer count = (Integer) entry.getValue().get("count");
@@ -222,6 +229,7 @@ class HelloWorld {
             }
         }
 
+        // time complexity O(k - s); s - number of unique phrases with count == 1
         List<List> dedup_list = new ArrayList<>();
         Set<Integer> remove_indices = new HashSet<Integer>();
         for (Map.Entry<String, Map<String, Object>> entry : dupl_info_reduce.entrySet()) {
@@ -231,6 +239,7 @@ class HelloWorld {
             }
         }
 
+        // time complexity O(d); d - number of duplicated lines
         for (int i = 0; i < list.size(); i++){
             if(!remove_indices.contains(i)){
                 dedup_list.add(list.get(i));
